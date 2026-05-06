@@ -1,5 +1,4 @@
-# [Level 1 Hello, world of XSS](https://xss-game.appspot.com/level1)
-
+# Level 1: Hello, world of XSS
 
 ## Observations
 
