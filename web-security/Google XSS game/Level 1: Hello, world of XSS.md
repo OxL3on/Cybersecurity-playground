@@ -1,4 +1,4 @@
-# [Level 1: Hello, world of XSS](https://xss-game.appspot.com/level1)
+# [Level 1 Hello, world of XSS](https://xss-game.appspot.com/level1)
 
 
 ## Observations
@@ -27,7 +27,7 @@ This suggests a **Reflected XSS vulnerability**, because the user input (`hello`
 Make the URL like this:
 
 ```
-https://xss-game.appspot.com/level1/frame?query=<script>alert(1)</script>
+https://xss-game.appspot.com/level1/frame?query=%3Cscript%3Ealert(1)%3C/script%3E
 ```
 
 This will cause the browser to execute the JavaScript `alert(1)` — confirming the vulnerability.
