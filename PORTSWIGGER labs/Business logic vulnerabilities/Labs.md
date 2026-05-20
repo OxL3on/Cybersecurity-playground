@@ -157,3 +157,22 @@ After the Intruder attack finishes, go back to the `POST /cart` request in Burp 
 
 
 # Lab: Inconsistent handling of exceptional input
+
+Try to browse to `/admin`. Although you don't have access, the error message reveals that only DontWannaCry users are allowed.
+
+Go to the account registration page. Observe the hint telling DontWannaCry employees to use their company email address. From the button in the lab banner, open the email client and make a note of the unique ID in your email server domain (format: `@YOUR-EMAIL-ID.web-security-academy.net`).
+
+Go back to the lab and register with an exceptionally long email address in the format:  
+`very-long-string@YOUR-EMAIL-ID.web-security-academy.net`  
+The `very-long-string` should be at least 200 characters long.  
+Go to the email client — you will receive a confirmation email. Click the link to complete registration. Log in and go to the "My account" page. Notice that your email address has been truncated to 255 characters.
+
+Log out and return to the account registration page. Register a new account with another long email address, but this time include `dontwannacry.com` as a subdomain, as follows:  
+`very-long-string@dontwannacry.com.YOUR-EMAIL-ID.web-security-academy.net`  
+Carefully choose the length of `very-long-string` so that the `"m"` at the end of `@dontwannacry.com` is exactly the 255th character.
+
+Go to the email client and click the confirmation link. Log in to your new account. Because the application server truncated the stored email address to 255 characters, your account now appears to have a valid `@dontwannacry.com` address (verify this on the "My account" page). You now have access to the admin panel. Navigate to the admin panel and delete `carlos` to solve the lab.
+
+
+
+# 
