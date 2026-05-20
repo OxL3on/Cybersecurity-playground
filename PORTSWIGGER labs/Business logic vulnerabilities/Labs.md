@@ -139,3 +139,21 @@ Add the leather jacket to your cart and proceed to the checkout page. Apply both
 Try applying the same code twice in a row. Observe that the second attempt is rejected because the coupon has already been applied. However, if you alternate between the two codes — applying `NEWCUST5`, then `SIGNUP30`, then `NEWCUST5` again, and so on — you can bypass this restriction. Each time you alternate, the system mistakenly treats the code as a new, unused coupon.
 
 Reuse the two codes alternately enough times to reduce your order total to less than your remaining store credit. Once the total is low enough, complete the order. The lab will be solved.
+
+
+
+# Lab: Low-level logic flaw
+
+First, with Burp Suite running, log in to the lab and attempt to buy the leather jacket. The order is rejected because your store credit is insufficient. In the Proxy history, study the order process, then send the `POST /cart` request to Burp Repeater.
+
+In Burp Repeater, notice that you can only add a 2‑digit quantity with each request. Send this request to Burp Intruder. In Intruder, set the `quantity` parameter to `99`. In the Payloads side panel, select the payload type **Null payloads**. Under Payload configuration, choose **Continue indefinitely**. Start the attack.
+
+While the attack is running, go to your cart and refresh the page every few seconds. Monitor the total price. Eventually, you will notice that the price suddenly becomes a large negative integer and begins counting upward toward zero. This happens because the total price has exceeded the maximum value allowed for an integer in the back‑end language (2,147,483,647 cents). The value wraps around to the minimum possible value (-2,147,483,648 cents).
+
+Clear your cart. Using only the leather jacket, it is not mathematically possible to make the wrapped‑around price land between $0 and your remaining $100 credit (the jacket’s price is 133,700 cents). Instead, create the same Intruder attack again, but this time under Payload configuration, generate exactly **323 payloads**. Click **Resource pool**, add the attack to a pool with **Maximum concurrent requests = 1**, then start the attack.
+
+After the Intruder attack finishes, go back to the `POST /cart` request in Burp Repeater and send a single request for **47 jackets**. The total price should now be -$1221.96 (i.e., -122,196 cents). Use Burp Repeater to add a suitable quantity of another cheap item to your cart so that the total falls between $0 and $100. Finally, place the order — the lab is solved.
+
+
+
+# Lab: Inconsistent handling of exceptional input
