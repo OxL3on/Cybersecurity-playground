@@ -200,3 +200,59 @@ Turn on intercept, log in, and forward the `POST /login` request. The next reque
 
 # Lab: Infinite money logic flaw
 
+First, log in and sign up for the newsletter to get the `SIGNUP30` coupon. Notice you can buy $10 gift cards and redeem them from the "My account" page.
+
+Add a gift card to your cart and proceed to checkout. Apply the `SIGNUP30` coupon for 30% off, complete the order, and copy the gift card code. Go to your account and redeem the card — this adds $3 to your store credit.
+
+Study the proxy history. Redemption is done via `POST /gift-card` with the `gift-card` parameter. Now set up automation:
+
+1. In Burp, go to **Settings > Sessions**. Add a new session handling rule. Set scope to include all URLs.
+2. Add a **Run a macro** action. Create a macro with these requests in order:
+   - `POST /cart`
+   - `POST /cart/coupon`
+   - `POST /cart/checkout`
+   - `GET /cart/order-confirmation?order-confirmed=true`
+   - `POST /gift-card`
+3. In the macro editor, select the order confirmation request, click **Configure item**, and add a custom parameter named `gift-card` — highlight the gift card code from the response.
+4. Select the `POST /gift-card` request, configure it so the `gift-card` parameter is derived from the prior response (response 4).
+5. Test the macro to ensure it works.
+
+Now send `GET /my-account` to Burp Intruder (Sniper attack). Use **Null payloads** and generate **412 payloads**. Under **Resource pool**, set maximum concurrent requests to **1**. Start the attack.
+
+When finished, you'll have enough store credit to buy the leather jacket and solve the lab.
+
+
+# Lab: Authentication bypass via encryption oracle
+
+First, log in with the "Stay logged in" option enabled and post a comment. Observe that the stay-logged-in cookie is encrypted. Notice that when you submit a comment with an invalid email, the response sets an encrypted notification cookie and shows an error: `Invalid email address: your-input`. This reveals that the notification cookie encrypts your email input.
+
+Send the `POST /post/comment` (encrypt) and `GET /post?postId=x` (decrypt) requests to Burp Repeater. Rename them "encrypt" and "decrypt".
+
+In the decrypt request, replace the notification cookie with your stay-logged-in cookie. Send it — the response shows the decrypted value: `username:timestamp` (e.g., `wiener:1598530205184`). Copy the timestamp.
+
+In the encrypt request, set the email parameter to `administrator:your-timestamp`. Send it and copy the new notification cookie. Decrypt it — notice a 23-character prefix `"Invalid email address: "` is added.
+
+Send the notification cookie to Burp Decoder. URL-decode then Base64-decode it. In Repeater's Hex tab, delete the first 23 bytes. Re-encode and paste into the decrypt request's notification cookie. The error now says input length must be a multiple of 16 — so pad the prefix to 32 bytes by adding 9 characters (`xxxxxxxxx`) before your cookie value in the encrypt request.
+
+Encrypt `xxxxxxxxxadministrator:timestamp`. Decode and delete 32 bytes from the start. Re-encode, then decrypt — the prefix is gone, leaving only `administrator:timestamp`.
+
+Send the `GET /` request to Repeater. Remove the session cookie, replace the stay-logged-in cookie with your crafted ciphertext, and send. You are now logged in as administrator. Browse to `/admin/delete?username=carlos` to solve the lab.
+
+
+
+# Lab: Bypassing access controls using email address parsing discrepancies
+
+Open the lab and click **Register**. Try to register with `foo@exploit-server.net` — the request is blocked because the email domain must be `ginandjuice.shop`.
+
+Now try an encoded email using Q encoding:  
+`=?iso-8859-1?q?=61=62=63?=foo@ginandjuice.shop` (which decodes to `abcfoo@ginandjuice.shop`).  
+The registration is blocked with "Registration blocked for security reasons." The same happens with UTF-8 encoding.
+
+Try UTF-7 encoding:  
+`=?utf-7?q?&AGEAYgBj-?=foo@ginandjuice.shop` — this time, no error. The server doesn't detect UTF-7 as a threat.
+
+Exploit this by registering with:  
+`=?utf-7?q?attacker&AEA-[YOUR-EXPLOIT-SERVER_ID]&ACA-?=@ginandjuice.shop`  
+This decodes to `attacker@[YOUR-EXPLOIT-SERVER-ID]` followed by a space and `@ginandjuice.shop`. The server sees the `@ginandjuice.shop` suffix and allows registration, but the email client interprets it as `attacker@[YOUR-EXPLOIT-SERVER-ID]`.
+
+Open the email client, click the confirmation link, and activate the account. Log in, go to the **Admin panel**, and delete `carlos` — lab solved.
