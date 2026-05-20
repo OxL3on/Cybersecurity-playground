@@ -116,4 +116,26 @@ Forward the request. You will observe that the cart updates with a negative quan
 
 Once the total is low enough, add the expensive jacket to your cart and proceed to checkout. The manipulated cart total allows you to complete the purchase and solve the lab.
 
-# Lab: Low-level logic flaw
+
+
+# Lab: Inconsistent security controls
+
+First, Try to browse to `/admin`. Although you are denied access, the error message reveals that only users with a `@dontwannacry.com` email address are allowed.
+
+Navigate to the account registration page. Observe the hint telling DontWannaCry employees to use their company email address. Register with an arbitrary email in the format: `anything@your-email-id.web-security-academy.net` (you can find your unique email domain by clicking the "Email client" button). Go to the email client and click the confirmation link to complete the registration.
+
+Log in with your new account and go to the "My account" page. Notice that you have the option to change your email address. Modify your email to an arbitrary `@dontwannacry.com` address (e.g., `hacker@dontwannacry.com`).
+
+After saving the change, refresh the page or navigate to `/admin`. You will now have full access to the admin panel, where you can delete `carlos` to solve the lab.
+
+
+
+# Lab: Flawed enforcement of business rules
+
+First, log in to the lab using the provided credentials. At the bottom of the page, notice that there is a coupon code `NEWCUST5`. Sign up for the newsletter as well — you will receive another coupon code, `SIGNUP30`.
+
+Add the leather jacket to your cart and proceed to the checkout page. Apply both coupon codes to receive a discount on your order. 
+
+Try applying the same code twice in a row. Observe that the second attempt is rejected because the coupon has already been applied. However, if you alternate between the two codes — applying `NEWCUST5`, then `SIGNUP30`, then `NEWCUST5` again, and so on — you can bypass this restriction. Each time you alternate, the system mistakenly treats the code as a new, unused coupon.
+
+Reuse the two codes alternately enough times to reduce your order total to less than your remaining store credit. Once the total is low enough, complete the order. The lab will be solved.
