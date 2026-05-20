@@ -175,4 +175,28 @@ Go to the email client and click the confirmation link. Log in to your new accou
 
 
 
-# 
+# Lab: Weak isolation on dual-use endpoint
+
+Log in and go to your account page. Change your password while intercepting the request with Burp. Send the request to Repeater.
+
+Notice that if you remove the `current-password` parameter, you can change the password without knowing the old one. Also, the `username` parameter controls which user gets changed.
+
+Change `username` to `administrator` and send the request. Now log out and log back in as `administrator` with your new password. Go to the admin panel and delete `carlos` — lab solved.
+
+
+# Lab: Insufficient workflow validation
+
+Log in and buy a cheap item you can afford. In Burp's proxy history, notice that after placing the order, the `POST /cart/checkout` request redirects you to a confirmation page. Send the `GET /cart/order-confirmation?order-confirmation=true` request to Burp Repeater.
+
+Now add the expensive leather jacket to your cart. In Burp Repeater, resend the saved order confirmation request. The order completes without deducting any store credit — lab solved.
+
+
+# Lab: Authentication bypass via flawed state machine
+
+Log in while intercepting with Burp. On the login page, you must select a role before reaching the home page. 
+
+Turn on intercept, log in, and forward the `POST /login` request. The next request is `GET /role-selector` — drop this request. Now browse directly to the lab's home page. Your role defaults to administrator, giving you admin access. Go to the admin panel and delete `carlos` — lab solved.
+
+
+# Lab: Infinite money logic flaw
+
