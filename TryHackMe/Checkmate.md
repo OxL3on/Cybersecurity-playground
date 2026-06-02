@@ -1,4 +1,4 @@
-echo "10.48.140.145 firewall.thm jobs.thm social.thm" | sudo tee -a /etc/hosts
+First echo "10.48.140.145 firewall.thm jobs.thm social.thm" | sudo tee -a /etc/hosts
 
 ## Level 1:
 
