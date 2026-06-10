@@ -1,5 +1,9 @@
+# Introduction to the Linux Shell
 
-`ssh -o "UserKnownHostsFile=/dev/null" user@ip` - Want to save fingerprint or not
+
+- `ssh -o "UserKnownHostsFile=/dev/null" user@ip` - Want to save fingerprint or not
+- sudo : Super user do
+- man 
 
 ## Difference between Terminal, TTY and Shell
 
@@ -62,4 +66,40 @@ Operating System
 
 
 ## User Management Commands
+
+- `sudo useradd -m <USERNAME>` : Create new user with default settings
+- `sudo passwd <USERNAME>` : Change user password
+- `sudo userdel -r <USERNAME>` : Delete user
+- `groups <USERNAME>` : List groups of a given user
+- `groupadd <GROUPNAME>` : Create new group
+- `usermod -a -G <GROUPNAME> <USERNAME>` : Add user to group
+
+
+## Packages Mangaement Commands
+
+
+# Linux File System Permissions
+
+- `ls -lha`
+
+```plaintext
+
+EXAMPLE:
+drwxrwxrwt
+drwxr-xr-x
+-rw-r--r--
+
+We find 10 letters, which can be either set or not set:
+- The first specifies the ~type of the file~.
+    - Regular files -> "-"
+    - Directories -> "d"
+    - Links -> "l"
+- Then we find three groups of three letters each 
+
+
+
+
+
+
+
 
