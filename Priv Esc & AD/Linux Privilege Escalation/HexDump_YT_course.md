@@ -95,6 +95,65 @@ We find 10 letters, which can be either set or not set:
     - Directories -> "d"
     - Links -> "l"
 - Then we find three groups of three letters each 
+    These specify the permissions for three types of users:
+    - The first group specifies the permissions for the user who is also the owner of the file.
+    - The second group specifies the permissions for the user who belongs to the group that owns the file.
+    - The third group specifies the permissions for all other uses. That is, for users who do not belong in the
+      group that owns the file and are not the owner of the file themselves
+- Each group works in the same way.
+  We have three distinct types of permissions:
+    - Read permission (r)
+    - Write permission (w)
+    - Execute permission (x)
+  There are minor variants in this. For example, when setting the SUID bit on an executable, the execute           permission will be written as ~s~ instead of ~x~.
+
+  Sometimes it can happen to see for the last position the value of ~t~ instead of the value of ~x~. This is       called the "sticky bit". It implies that users in the group ~root~ who technically have the permissions tho      delete a file (write), cannot do it as long as the sticky bit is set.
+```
+
+
+## How to set new permissions with chmod
+
+```
+Permission groups:
+
+- u → User (owner)
+- g → Group
+- o → Others
+- a → All (user + group + others)
+
+Permission actions:
+
+ + → Add permission
+ - → Remove permission
+ = → Set exact permission
+
+Permission types:
+
+- r → Read
+- w → Write
+- x → Execute
+
+Examples:
+
+```bash
+chmod u+x script.sh      # Give execute permission to owner
+chmod g-w file.txt      # Remove write permission from group
+chmod o+r notes.txt     # Give read permission to others
+chmod a+x program       # Give execute permission to everyone
+chmod u=rw file.txt     # Set owner permission to read & write only
+```
+
+```
+0 -> 000 -> ---
+1 -> 001 -> --x
+2 -> 010 -> -w-
+3 -> 011 -> -wx
+4 -> 100 -> r--
+5 -> 101 -> r-x
+6 -> 110 -> rw-
+7 -> 111 -> rwx
+```
+
 
 
 
