@@ -158,7 +158,7 @@ chmod u=rw file.txt     # Set owner permission to read & write only
 
 ## 🟢 SUID and GUID bits
 
-~SUID~ stands for ~Set User ID~.
+**SUID** stands for **Set User ID**.
 
 Binaries that have this bit allow the binary to change user permission during its execution. Specifically, it allows the program to be executed by anyone. Then, during its execution, it will change its permission and take the permissions of the owner of the file.
 
@@ -169,12 +169,30 @@ The executable flag is not (x) but rather (s). This is because the program has t
 - (root) , (ALL) NOPASSWD , (scriptmanager : scriptmanager) NOPASSWD : ALL
 
 
-## 
+## 🟢 PATH Hijacking
 
 
+**What is a PATH:** When you launch a program, for example in the shell, you typically just write the name of the program. For example, if I want to list out all the files in a given directory, I can use the ls program as follows
 
+`ls`
 
+Now, how does the shell process know which command to execute? Remember that in modern operating systems, resources are located in specific paths of a file system. All sorts of resources are located like that. Even binaries, which are the programs we use to do various activities.
+This means that before executing the command, the shell needs to resolve its full path, that is, it needs to know where does the program reside within the file system. This is where the concept of a PATH comes in.
+IMPORTANT: The PATH is an environment variable, found within the shell and other processes as well, which determines the folders to Look in order to resolve command names into full paths.
+In order to print the value of the PATH, within the shell bash we can execute the following command
 
+`echo $PATH`
 
+Now, how is PATH used? Simple, when you launch a program without a full path, such as when we just executed the command ls, the shell will use this list of folders in order to look for the ls binary. It will start from the first folder, and, until it has found an ls binary, it will keep looking for further folders, until all of them have been checked.
 
+```
+1. Create a malicous bash script and call it cat within the current folder
+
+    echo -en '#!/usr/bin/env sh\n/bin/bash\n' > cat
+    chmod +x cat
+
+2. Launch the program with a malicious PATH variable
+
+    PATH=$PATH./reader 01.txt
+```
 
