@@ -1,11 +1,11 @@
-# Introduction to the Linux Shell
+# 🔴 Introduction to the Linux Shell
 
 
 - `ssh -o "UserKnownHostsFile=/dev/null" user@ip` - Want to save fingerprint or not
 - sudo : Super user do
 - man 
 
-## Difference between Terminal, TTY and Shell
+## 🟢 Difference between Terminal, TTY and Shell
 
 ```
 User
@@ -24,7 +24,7 @@ Operating System
 - tty - where terminal and shell use to exchange info
 
 
-## Basic Commands
+## 🟢 Basic Commands
 
 - `whoami` : gives current username
 - `id` : userid, groupid, which group you belong to
@@ -34,13 +34,13 @@ Operating System
 - `which commandName` : the path within a file system for that particular program
 
 
-## Relative and Absolute Paths
+## 🟢 Relative and Absolute Paths
 
 - Absolute path : Always starts with root of the file system
 - Relative path : Dont start from the root but start from the current working directory
 
 
-## File System Commands
+## 🟢 File System Commands
 
 - `pwd` : print working directory
 - `cd` : change directory
@@ -52,7 +52,7 @@ Operating System
 - `echo "hello1" > text1.txt` : create a file with content hello1
 
 
-## Resources Management Commands
+## 🟢 Resources Management Commands
 
 - `fdisk -l` : How many devices are connected to our computer
 - `df -h` : How much space if taken or left
@@ -65,7 +65,7 @@ Operating System
 
 
 
-## User Management Commands
+## 🟢 User Management Commands
 
 - `sudo useradd -m <USERNAME>` : Create new user with default settings
 - `sudo passwd <USERNAME>` : Change user password
@@ -75,10 +75,10 @@ Operating System
 - `usermod -a -G <GROUPNAME> <USERNAME>` : Add user to group
 
 
-## Packages Mangaement Commands
+## 🟢 Packages Mangaement Commands
 
 
-# Linux File System Permissions
+## 🟢 Linux File System Permissions
 
 - `ls -lha`
 
@@ -111,7 +111,7 @@ We find 10 letters, which can be either set or not set:
 ```
 
 
-## How to set new permissions with chmod
+## 🟢 How to set new permissions with chmod
 
 ```
 Permission groups:
@@ -154,6 +154,22 @@ chmod u=rw file.txt     # Set owner permission to read & write only
 7 -> 111 -> rwx
 ```
 
+**sudo chown root:root hi.sh - change owner of the file**
+
+## 🟢 SUID and GUID bits
+
+~SUID~ stands for ~Set User ID~.
+
+Binaries that have this bit allow the binary to change user permission during its execution. Specifically, it allows the program to be executed by anyone. Then, during its execution, it will change its permission and take the permissions of the owner of the file.
+
+The executable flag is not (x) but rather (s). This is because the program has the SUID bit set. This means that during its execution, at specific times, the program will change its roles in order to become root. 
+
+- chmod +s/u+s/u-s h.sh (first set +s and then +x for executing)
+- sudo -l
+- (root) , (ALL) NOPASSWD , (scriptmanager : scriptmanager) NOPASSWD : ALL
+
+
+## 
 
 
 
