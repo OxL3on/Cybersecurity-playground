@@ -168,6 +168,29 @@ The executable flag is not (x) but rather (s). This is because the program has t
 - sudo -l
 - (root) , (ALL) NOPASSWD , (scriptmanager : scriptmanager) NOPASSWD : ALL
 
+#### Security Issues with SUID
+
+Having a binary that runs as the owner of the file can be problematic when the owner of said file is the root user. More specifically, we might be able to:
+1. Read files owned by root
+2. Read and write files owned by root
+3. Execute arbitrary code as the root user
+
+**Real User ID, Effective User ID, Saved User ID**
+
+To understand the role of SUID, it is important to understand that we have three different types of user IDs for any process being executed.
+- Real User ID : Who you really are, and therefore who owns the process.
+- Effective User ID : What the operating system looks at to make authorization decision, i.e. whether or not you are allowed to do something.
+- Saved User ID : Used when a program running with elevated privileges needs to do some unprivileged work temporarily.
+
+GTFOBINS - https://gtfobins.org/
+
+**Find SUID files**
+
+`find / -perm -4000 2>/dev/null`
+
+**Find SGID**
+
+`find / -perm -2000 2>/dev/null`
 
 ## 🟢 PATH Hijacking
 
@@ -195,4 +218,48 @@ Now, how is PATH used? Simple, when you launch a program without a full path, su
 
     PATH=$PATH./reader 01.txt
 ```
+
+
+## 🟢 SUDO
+
+**What is SUDO:** SuperUserDO
+- To check the configuration for the sudo program, execute `sudo -l`
+- The configuration is found within `/etc/sudoers`
+
+
+## Shell Wildcards
+
+When using shells such as sh or bash, it is often useful to use wildcard characters to perform more complex actions. In the linux environment we have the following wildcard characters, also called "globbing patterns"
+
+- ? (question mark) : This can represent any single character.
+- * (asterisk) : This can represent any number of characters (including zero, in other words, zero or more characters)
+- [] (square brackets) : specifies a range.
+- {} (curly brackets) : terms are separated by commas and each term must be the name of
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
