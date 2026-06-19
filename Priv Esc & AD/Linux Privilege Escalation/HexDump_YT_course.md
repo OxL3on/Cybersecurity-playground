@@ -341,7 +341,16 @@ Most Famous:
 Use tool `pspy` : https://github.com/dominicbreuker/pspy
 
 
-### Linux Capabilities Enumeration
+## 🟢 Linux Capabilities Enumeration
+
+Other than the basic file system permissions of read (r), write (w) and execute (x), linux offers a set of fine grained permissions that allows processes to do specific tasks with higher privileges (root).
+Specifically, while tradional UNIX systems distinguish only between two types of processes:
+- those privileges (euid = 0)
+- those unrpivileges (euid != 0)
+From linux kernel 2.2- onwards, privileges are split into distinc units, known as capabilities, which can be enabled or disabled (per-thread attribute).
+Capabilities are used to implement the least privilege design principle.
+
+
 
 
 
