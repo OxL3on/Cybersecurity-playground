@@ -392,6 +392,17 @@ Other interesting capabilities:
 - CAP_SETPCAP
 
 
+## 🟢 Local Services Exploitation
+
+Sometimes services are configured to only listen in local network interfaces. 
+
+In these cases, we are not able to access those services from the internet. We need an access to get inside the machine, such as an ssh-connection.
+
+When you connect to a compromised machine, always check the network interfaces available with the command ~ip a~, and check if there are any open ports or processes which listens on well known ports.
+
+
+
+
 
 
 
