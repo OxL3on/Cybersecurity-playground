@@ -350,6 +350,46 @@ Specifically, while tradional UNIX systems distinguish only between two types of
 From linux kernel 2.2- onwards, privileges are split into distinc units, known as capabilities, which can be enabled or disabled (per-thread attribute).
 Capabilities are used to implement the least privilege design principle.
 
+There are 5 capabilities:
+- Inherited
+- Effective
+- Permitted
+- Bounding
+- Ambient
+
+ To obtain all the capabilities of a given binary, use `getcap` command.
+ To set a new capability use `setcap`
+
+ ### Enumerate Capabilities
+ - To search recursively the file system starting from the root directory you can use `getcap` : `getcap -r / 2>/dev/null`
+ - To get the capabilities of a process given its PID you can use `getpcaps` : `getpcaps <PID>`
+ - You can also use the pseudo-fs `/proc` : `cat /proc/<PID>/status | grep Cap` , `capsh --decode=value`
+
+### Exploitation
+
+Some interesting capabilities that can be used for exploitations are listed below:
+- CAP_SYS_ADMIN : Allows extensive administrative privileges, such as mounting devices.
+- CAP_SYS_PTRACE : Allows to use debugging and system call tracing functionalities (ptrace).
+- CAP_SYS_MODULE : Allows to load and unload kernel modules.
+- CAP_SETUID : Allows to set the effective user id of the created process.
+
+Other interesting capabilities:
+- CAP DAC READ SEARCH
+- CAP DAC OVERRIDE
+- CAP_CHOWN
+- CAP_FOWNER
+- CAP SETGID
+- CAP SETFCAP
+- CAP_SYS_RAWIO
+- CAP_KILL
+- CAP NET BIND SERVICE
+- CAP_NET_RAW
+- CAP_LINUX_IMMUTABLE
+- CAP_SYS_CHROOT
+- CAP SYS BOOT
+- CAP_SYSLOG
+- CAP_MKNOD
+- CAP_SETPCAP
 
 
 
