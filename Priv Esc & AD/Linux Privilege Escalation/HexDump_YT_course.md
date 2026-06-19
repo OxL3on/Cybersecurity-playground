@@ -333,7 +333,17 @@ Most Famous:
 ## 🟢 Linux CronJob Enumeration
 
 - To list out the cronjob configured for your user you can execute `crontab -l`
-- To edit the cronjob configurtaion 
+- To edit the cronjob configurtaion `crontab -e`
+- A typical crojob entry looks like : 0 9 15 2 * script.sh (MIN HOUR DOM MON DOW)
+- `cat /etc/crontab` , `cd /etc/cron.__`
+
+### Cronjob Enumeration
+Use tool `pspy` : https://github.com/dominicbreuker/pspy
+
+
+### Linux Capabilities Enumeration
+
+
 
 
 
