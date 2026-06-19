@@ -391,6 +391,13 @@ Other interesting capabilities:
 - CAP_MKNOD
 - CAP_SETPCAP
 
+MORE :
+
+- https://man7.org/linux/man-pages/man7/capabilities.7.html
+- https://man7.org/linux/man-pages/man8/getcap.8.html
+- https://stackoverflow.com/questions/35469038/how-to-find-out-what-linux-capabilities-a-process-requires-to-work
+- https://book.hacktricks.xyz/linux-hardening/privilege-escalation/linux-capabilities
+
 
 ## 🟢 Local Services Exploitation
 
@@ -398,7 +405,72 @@ Sometimes services are configured to only listen in local network interfaces.
 
 In these cases, we are not able to access those services from the internet. We need an access to get inside the machine, such as an ssh-connection.
 
-When you connect to a compromised machine, always check the network interfaces available with the command ~ip a~, and check if there are any open ports or processes which listens on well known ports.
+When you connect to a compromised machine, always check the network interfaces available with the command `ip a`, and check if there are any open ports or processes which listens on well known ports.
+
+- Check network interfaces : `ip a`
+- Check listening : `netstat -ltpn`
+
+There are two main ways in which we can access local services:
+
+- *Local Port Forwarding* : Local Port Forwarding redirects traffic from a local port on the client machine to a specified port on a remote server through an SSH connection.
+  Example: `ssh -p1337 -o "UserKnownHostsFile=/dev/null" -L1338:127.0.0.1:7777 username@127.0.0.1` and the with this we can exploit the previous vulnerability as follows : `curl -X GET http://127.0.0.1:1338/cmdd {"cmd": "whoami"}' -H "Content-Type: application/json"`
+- *Remote Port Forwarding* : Remote Port Forwarding redirects traffic from a port on the remote server to a specified port on the client machine, allowing external access to local services.
+
+
+
+## 🟢 Linux Binary Exploits
+
+**Buffer Overflow**
+
+**shellcode**
+
+Example:
+
+The idea behind exploitation is to use a **NOP sled** with a malicious shellcode which, when executed by the CPU, will trigger a **/bin/sh shell**.
+
+In particular, we want to put into the stack the following structure, where **NOP** is a simple **\x90** instruction which does nothing but increments the PC (**program counter**), while the new return address should point to the created **NOP sled**.
+
+```text
+                Low address
+                -----------
+
+                     .
+                     .
+                     .
+
+ESP ---->     NOP SLED
+              NOP SLED
+              NOP SLED
+              NOP SLED  <-------------
+              NOP SLED                |
+              shellcode              |
+              shellcode              |
+              shellcode              |
+              new return address ----|
+              new return address
+              new return address
+
+                     .
+                     .
+                     .
+
+                High address
+                ------------
+```
+
+With this setup, when the function returns from **vulnerable**, we will jump into the **NOP SLED**, which will guide the CPU towards the shellcode. As soon as the shellcode is executed, we have our shell.
+
+
+### Takeways
+
+While the binary exploit shown is extremly simple, the same idea can be applied to modern binaries with all the latest protections. All these protections can be bypass with appropriate techniques and
+primitives.
+The biggest takeway is that sometimes the binaries present in a system can be vulnerable to binary exploitation. This, in turn, can make it possible to hijack the execution flow of the binary in order to execute arbitrary code, including malicious code.
+Thus, exploitation of userspace programs can also be a path towards privilege escalation.
+
+
+## 🟢 Using Kernel Exploits
+
 
 
 
