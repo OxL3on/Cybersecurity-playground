@@ -280,6 +280,61 @@ These hashes are saved withing the `/etc/shadow` file. This file ca only be read
 - Step 4 : BruteForce (Use John or Hashcat tools) - `john --format=crypt --wordlist=rockyou.txt unshadowed`
 
 
+## 🟢 Linux System Enumeration
+
+### What to Enumerate
+
+- hardware architecture
+- kernel version
+- linux distribution version
+- users and groups (/etc/passwd)
+- access to powerful groups (docker, ...)
+- sudo configuration
+- fs directories (/home/*, /opt/*, /var/www/html/*)
+- suid/guid binaries
+- local services
+- network interfaces
+- software installed with versions
+- backups / saved session
+- repositories under version control systems (git, svn)
+- cronjobs
+- capabilities 
+
+
+### How to Enumerate
+
+- `uname -a` , `uname -r`
+- `lsb_release -a`
+- `env`
+- `whoami`
+- `cat /etc/passwd`
+- `cat /etc/passwd | cud -d ':' -f 1 > users.txt`
+- `groups`
+- `cat /etc/group`
+- `cat /etc/group | cud -d ':' -f 1 > groups.txt`
+- `sudo -l`
+- fs directories : `ls -lha /opt` , `ls -lha /home/*` , `ls -lha /var/www/*`
+- suid/guid binaries : `find / -perm -u=s 2>/dev/null` , `find / -perm -g=s -type f 2>/dev/null`
+- local services : `netstat -lpnt`
+- network interfaces : `ip a`
+- software installed with versions : `which <SOFTWARE>` , `ls -lha /usr/local/sbin/*` , `ls -lha /usr/local/bin/*` , `ls -lha /usr/bin/*` , `echo $PATH`
+- backups / saved session : `find / -name "*.bkp" -ls` , `find / -name "*.kdbx -ls`
+- repositories under version control systems : `git log` , [git commands]
+- cronjobs :
+- capabilities :
+
+### Automated scripts
+
+Most Famous:
+- linPEAS - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+- LinEnum - https://github.com/rebootuser/LinEnum
+
+
+## 🟢 Linux CronJob Enumeration
+
+- To list out the cronjob configured for your user you can execute `crontab -l`
+- To edit the cronjob configurtaion 
+
 
 
 
