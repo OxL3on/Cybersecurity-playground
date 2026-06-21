@@ -471,6 +471,11 @@ Thus, exploitation of userspace programs can also be a path towards privilege es
 
 ## 🟢 Using Kernel Exploits
 
+- One of the lowest software layers, used to abstract away the firmware and hardware layers
+- Enumerate Kernal version `uname -a`
+- searchsploit
+- searchaploit -m
+
 
 
 
