@@ -23,13 +23,13 @@ sudo cp /usr/bin/find /opt/vuln_suid/find
 
 ls -l /opt/vuln_suid
 
-sudo chown root:root /opt/vuln/find
+sudo chown root:root /opt/vuln_suid/find
 
-ls -l /opt/vuln/find
+ls -l /opt/vuln_suid/find
 
 sudo chmod u+s /opt/vuln_suid/find
 
-ls -l /opt/vuln/find
+ls -l /opt/vuln_suid/find
 ```
 
 #### On the Attacker machine - DO THIS
