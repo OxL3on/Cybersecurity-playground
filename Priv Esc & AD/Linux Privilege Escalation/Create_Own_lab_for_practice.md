@@ -1,10 +1,10 @@
-## PREREQUISITE
+## 🔴 PREREQUISITE
 
 - Kali Linux VM as Victim machine
 - Another VM OR your host Linux machine (like Manjaro Linux) as Attacker machine
 - In Oracle VM VirtualBox set victim networking to:
 
-## SUID Privilege Escalation
+## 🟢 SUID Privilege Escalation
 
 #### On the Victim machine - DO THIS
 
@@ -44,7 +44,7 @@ Go to [GTFOBins](https://gtfobins.org/)
 ```
 
 
-## PATH Hijacking
+## 🟢 PATH Hijacking
 
 
 #### On the Victim machine - DO THIS
@@ -118,7 +118,7 @@ sudo /opt/path_lab/backup.sh
 whoami -> root
 ```
 
-## Checking Sudo Rights
+## 🟢 Checking Sudo Rights
 
 #### On the Victim machine - DO THIS
 ```
@@ -153,5 +153,5 @@ Got root
 
 
 
-## Wildcard Injection
+## 🟢 Wildcard Injection
 
