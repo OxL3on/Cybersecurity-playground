@@ -152,5 +152,6 @@ sudo /usr/bin/less /etc/hosts
 Got root
 
 
+
 ## Wildcard Injection
 
