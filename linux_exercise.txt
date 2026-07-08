@@ -57,3 +57,19 @@ TCP Wrappers
 8.	Configure TCP wrappers to allow access to a specific network service from a specific IP address.
 9.	Configure TCP wrappers to deny access to a specific network service from a specific IP address.
 10.	Configure TCP wrappers to allow access to a specific network service from a range of IP addresses.
+
+
+FIREWALL SETUP
+
+1.	Launch a web server on TCP/8080 port on your target and use iptables to block incoming traffic on that port.
+2.	Change iptables rules to allow incoming traffic on the TCP/8080 port.
+3.	Block traffic from a specific IP address.
+4.	Allow traffic from a specific IP address.
+5.	Block traffic based on protocol.
+6.	Allow traffic based on protocol.
+7.	Create a new chain.
+8.	Forward traffic to a specific chain.
+9.	Delete a specific rule.
+10.	List all existing rules.
+
+
