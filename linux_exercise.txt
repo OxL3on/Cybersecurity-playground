@@ -22,3 +22,18 @@ FILTER CONTENT EXERCISE
 
 
 
+CONTAINERIZATION (LXC) EXERCISE:
+
+	
+1	Install LXC on your machine and create your first container.
+2	Configure the network settings for your LXC container.
+3	Create a custom LXC image and use it to launch a new container.
+4	Configure resource limits for your LXC containers (CPU, memory, disk space).
+5	Explore the lxc-* commands for managing containers.
+6	Use LXC to create a container running a specific version of a web server (e.g., Apache, Nginx).
+7	Configure SSH access to your LXC containers and connect to them remotely.
+8	Create a container with persistence, so changes made to the container are saved and can be reused.
+9	Use LXC to test software in a controlled environment, such as a vulnerable web application or malware.
+
+
+
