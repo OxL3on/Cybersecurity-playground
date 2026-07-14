@@ -1,7 +1,7 @@
-Checkmate
-Easy Peasy
-Startup
-LazyAdmin
-Thompson
-year of the rabbit
-Anonforce
+Checkmate - https://github.com/OxL3on/Cybersecurity-playground/blob/main/TryHackMe/Checkmate.md
+Easy Peasy - https://github.com/OxL3on/Cybersecurity-playground/blob/main/TryHackMe/Easy_Peasy.md
+Startup - https://github.com/OxL3on/Cybersecurity-playground/blob/main/TryHackMe/Startup.md
+LazyAdmin - https://github.com/OxL3on/Cybersecurity-playground/blob/main/TryHackMe/LazyAdmin.md
+Thompson - https://github.com/OxL3on/Cybersecurity-playground/blob/main/TryHackMe/Thompson.md
+year of the rabbit - https://medium.com/@leonislam052/year-of-the-rabbit-70f3ede959b3
+Anonforce - https://github.com/OxL3on/Cybersecurity-playground/blob/main/TryHackMe/Anonforce.md
