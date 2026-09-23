@@ -351,19 +351,3 @@ Security boundary is bypassed → Unauthorized access / modification
 * OAST (Out-of-band) পদ্ধতি সবচেয়ে reliable, বিশেষ করে asynchronous query-র ক্ষেত্রে, এবং এটি দিয়ে data exfiltrate-ও করা যায়।
 * XML/JSON format-এ WAF bypass করতে encoding (যেমন `&#x53;`) ব্যবহার করা যায়।
 
-## 27. PortSwigger Revision Checklist
-
-* [x] What is the vulnerability?
-* [x] Why does it happen?
-* [x] How does it work?
-* [x] Main types / variations (UNION, Blind, Second-order)
-* [x] Attack conditions
-* [x] Detection methods
-* [x] Main exploitation techniques (Order by, Union select null, Substring logic)
-* [x] Important payloads
-* [x] Limitations (Parameterization limits, UNION constraints)
-* [x] Edge cases (Asynchronous processing)
-* [x] Technology-specific differences (Oracle, MySQL, MSSQL)
-* [x] Impact
-* [x] Prevention (Prepared statements)
-* [x] Important warnings (`OR 1=1` data loss risk)
