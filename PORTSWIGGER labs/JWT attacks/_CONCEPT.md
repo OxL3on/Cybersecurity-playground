@@ -39,6 +39,7 @@ JWT স্পেসিফিকেশন বাই ডিজাইন খুব�
 
 ## 5. Attack Flow
 
+```
 Attacker
 ↓
 Obtain a valid JWT from the application (e.g., after login)
@@ -54,6 +55,7 @@ Exploit the vulnerability to bypass signature verification or forge a new valid 
 Send the modified JWT back to the server
 ↓
 Server trusts the token, granting the attacker unauthorized access
+```
 
 ## 6. Important Conditions / Requirements
 
